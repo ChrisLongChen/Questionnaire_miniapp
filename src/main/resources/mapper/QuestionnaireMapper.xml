@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.whu.miniapp.mapper.QuestionnaireMapper">
+    <resultMap type="com.whu.miniapp.entity.Questionnaire" id="questionnaireMap">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="title" property="title"/>
+        <result column="ques_introduction" property="quesIntroduction"/>
+        <result column="aim_start_age" property="aimStartAge"/>
+        <result column="aim_end_age" property="aimEndAge"/>
+        <result column="aim_gender" property="aimGender"/>
+        <result column="aim_vocation" property="aimVocation"/>
+        <result column="aim_location" property="aimLocation"/>
+        <result column="aim_time_begin" property="aimTimeBegin"/>
+        <result column="aim_time_end" property="aimTimeEnd"/>
+        <result column="iss_status" property="issStatus"/>
+        <result column="iss_time" property="issTime"/>
+        <result column="quest_number" property="questNumber"/>
+        <result column="answer_sheet_number" property="answerSheetNumber"/>
+    </resultMap>
+
+    <select id="findQuestionnaire" resultType="com.whu.miniapp.entity.Questionnaire">
+        select * from questionnaire
+    </select>
+
+    <select id="findQuestionnaireById" resultType="com.whu.miniapp.entity.Questionnaire">
+        select questionnaire.id,questionnaire.user_id,questionnaire.title,questionnaire.ques_introduction,questionnaire.quest_number,user.wechat_pic
+        from questionnaire inner join user on (questionnaire.user_id = user.id) where questionnaire.id = #{id}
+    </select>
+
+    <insert id="insertQuestionnaire" useGeneratedKeys="true" keyProperty="id" parameterType="com.whu.miniapp.entity.Questionnaire">
+        insert into questionnaire (user_id, title, ques_introduction, aim_start_age, aim_end_age, aim_gender, aim_vocation,
+        aim_location, aim_time_begin, aim_time_end, iss_status, iss_time, ques_number, answer_sheet_number)
+        values (#{userId}, #{title}, #{quesIntroduction}, #{aimStartAge}, #{aimEndAge}, #{aimGender}, #{aimVocation},
+        #{aimLocation}, #{aimTimeBegin}, #{aimTimeEnd}, #{issStatus}, #{issTime}, #{quesNumber}, #{answerSheetNumber})
+    </insert>
+
+    <update id="updateQuestionnaire" parameterType="com.whu.miniapp.entity.Questionnaire">
+        update questionnaire
+        <trim prefix="set" suffixOverrides=",">
+            <if test="title!=null">title = #{title},</if>
+            <if test="quesIntroduction!=null">ques_introduction = #{quesIntroduction},</if>
+            <if test="aimStartAge!=null">aim_start_age = #{aimStartAge},</if>
+            <if test="aimEndAge!=null">aim_end_age = #{aimEndAge},</if>
+            <if test="aimGender!=null">aim_gender = #{aimGender},</if>
+            <if test="aimVocation!=null">aim_vocation = #{aimVocation},</if>
+            <if test="aimTimeBegin!=null">aimTimeBegin = #{aimTimeBegin},</if>
+            <if test="aimTimeEnd!=null">aimTimeEnd = #{aimTimeEnd},</if>
+        </trim>
+        where id = #{questionnaireId}
+    </update>
+
+    <select id="findQuestionnaireByQuesId" resultType="com.whu.miniapp.entity.Questionnaire">
+        select * from questionnaire where id = #{questionnaireId}
+    </select>
+
+    <update id="updateQuestionnaire" parameterType="com.whu.miniapp.entity.Questionnaire">
+        update questionnaire
+        <trim prefix="set" suffixOverrides=",">
+            <if test="issStatus!=null">iss_status = #{issStatus},</if>
+        </trim>
+        where id = #{questionnaireId}
+    </update>
+
+    <select id="findQuestionnaireDraftByUserId" resultType="com.whu.miniapp.entity.Questionnaire">
+        select id,title from questionnaire where userId = #{user_id} and iss_status = 0
+    </select>
+
+    <select id="findQuestionnaireTotalInfoByUserId" resultType="com.whu.miniapp.entity.Questionnaire">
+        select id,title,iss_status from questionnaire where userId = #{user_id} and iss_status = 1
+    </select>
+
+    <delete id="deleteQuestionnaire" parameterType="java.lang.Integer">
+        delete from questionnaire where id = #{questionnaireId}
+    </delete>
+
+    <select id="findQuestionnaireByDesc" resultType="com.whu.miniapp.entity.Questionnaire">
+        select * from questionnaire by id desc limit #{batchNum}, 10
+    </select>
+
+</mapper>

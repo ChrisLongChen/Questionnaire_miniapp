@@ -4,19 +4,74 @@
 
 <mapper namespace="com.whu.miniapp.mapper.UserMapper">
 
+    <resultMap type="com.whu.miniapp.entity.User" id="userMap">
+        <result column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_passcode" property="userPasscode"/>
+        <result column="user_gender" property="userGender"/>
+        <result column="user_age" property="userAge"/>
+        <result column="user_career" property="userCareer"/>
+        <result column="user_phone" property="userPhone"/>
+        <result column="user_addr" property="userAddr"/>
+        <result column="wechat_id" property="wechatId"/>
+        <result column="wechat_pic" property="wechatPic"/>
+        <result column="user_status" property="userStatus"/>
+        <result column="ban_time" property="banTime"/>
+        <result column="ban_unit" property="banUnit"/>
+        <result column="introduction" property="introduction"/>
+        <result column="point" property="point"/>
+    </resultMap>
+
     <insert id="insertUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.whu.miniapp.entity.User">
         insert into user (user_name, user_passcode, user_gender, user_age, user_career, user_phone, user_addr,
-        wechat_id, wechat_pic, user_status, ban_time, ban_unit, introduction, point)
-        values (#{user_name}, #{user_passcode}, #{user_gender}, #{user_age}, #{user_career}, #{user_phone}, #{user_addr},
-        #{wechat_id}, #{wechat_pic}, #{user_status}, #{ban_time}, #{ban_unit}, #{introduction}, #{point})
+        wechat_id, wechat_pic, user_status, introduction, point)
+        values (#{userName}, #{userPasscode}, #{userGender}, #{userAge}, #{userCareer}, #{userPhone}, #{userAddr},
+        #{wechatId}, #{wechatPic}, #{userStatus}, #{introduction}, #{point})
     </insert>
 
+    <select id="findUserByUserId" resultType="com.whu.miniapp.entity.User">
+        select * from user where id = #{userId}
+    </select>
+
     <select id="findUserByUsername" resultType="com.whu.miniapp.entity.User">
-        select * from user where user_name = #{user_name}
+        select * from user where user_name = #{userName}
     </select>
 
     <select id="findUserByUserPhone" resultType="com.whu.miniapp.entity.User">
-        select * from user where user_phone = #{user_phone}
+        select * from user where user_phone = #{userPhone}
+    </select>
+
+    <select id="findUserByWechatid" resultType="com.whu.miniapp.entity.User">
+        select * from user where wechat_id = #{openid}
+    </select>
+
+    <update id="updateUserInfo" parameterType="com.whu.miniapp.entity.User">
+        update user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userName!=null">user_name = #{userName},</if>
+            <if test="userGender!=null">user_gender = #{userGender},</if>
+            <if test="userAge!=null">user_age = #{userAge},</if>
+            <if test="userCareer!=null">user_career = #{userCareer},</if>
+            <if test="userAddr!=null">user_addr = #{userAddr},</if>
+            <if test="introduction!=null">introduction = #{introduction},</if>
+        </trim>
+        where id = #{userId}
+    </update>
+
+    <select id="findUserByAsc" resultType="com.whu.miniapp.entity.User">
+        select * from user by id asc limit #{batchNum}, 10
+    </select>
+
+    <select id="findUserByAsc" resultType="com.whu.miniapp.entity.User">
+        select * from user where user_name like CONCAT('%',:name,'%')",nativeQuery=true limit #{batchNum}, 10
+    </select>
+
+    <select id="findUserListByUsername" resultType="com.whu.miniapp.entity.User">
+        select * from user where user_name like CONCAT('%',:input,'%')",nativeQuery=true limit #{batchNum}, 10
+    </select>
+
+    <select id="findUserListByUserPhone" resultType="com.whu.miniapp.entity.User">
+        select * from user where user_phone like CONCAT('%',:input,'%')",nativeQuery=true limit #{batchNum}, 10
     </select>
 
 </mapper>

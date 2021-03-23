@@ -1,14 +1,18 @@
+# 服务端口号
+server:
+  port: 8080
+
+# 数据库相关配置
 spring:
   datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/questionnaire?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
     username: root
     password: "123456"
-    driver-class-name: com.mysql.cj.jdbc.Driver
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: "Asia/Shanghai"
 
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
-server:
-  port: 8088
+  jpa:
+    open-in-view=false:

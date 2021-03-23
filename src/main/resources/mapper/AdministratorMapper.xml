@@ -3,20 +3,80 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.whu.miniapp.mapper.AdministratorMapper">
+    <resultMap type="com.whu.miniapp.entity.Administrator" id="answerMap">
+        <result column="id" property="id"/>
+        <result column="admin_name" property="adminName"/>
+        <result column="admin_age" property="adminAge"/>
+        <result column="admin_gender" property="adminGender"/>
+        <result column="admin_career" property="adminCareer"/>
+        <result column="admin_phone" property="adminPhone"/>
+        <result column="admin_passcode" property="adminPasscode"/>
+        <result column="wechat_id" property="wechatId"/>
+        <result column="wechat_pic" property="wechatPic"/>
+    </resultMap>
 
-    <insert id="insertAdministrator" useGeneratedKeys="true" keyProperty="id" parameterType="com.whu.miniapp.entity.Administrator">
-        insert into administrator (admin_name, admin_age, admin_gender, admin_career, admin_phone, admin_passcode,
-        wechat_id, wechat_pic)
-        values (#{admin_name}, #{admin_age}, #{admin_gender}, #{admin_career}, #{admin_phone}, #{admin_passcode},
-        #{wechat_id}, #{wechat_pic})
-    </insert>
+    <delete id="deleteQuestionnaireById" parameterType="java.lang.Integer">
+        delete from questionnaire where id = #{questionnaireId}
+    </delete>
 
-    <select id="findAdministratorByAdminName" resultType="com.whu.miniapp.entity.Administrator">
-        select * from administrator where admin_name = #{admin_name}
+    <update id="updateAdminInfo" parameterType="com.whu.miniapp.entity.Administrator">
+        update administrator
+        <trim prefix="set" suffixOverrides=",">
+            <if test="adminName!=null">admin_name = #{adminName},</if>
+            <if test="adminGender!=null">admin_gender = #{adminGender},</if>
+            <if test="adminAge!=null">admin_age = #{adminAge},</if>
+            <if test="adminCareer!=null">admin_career = #{adminCareer},</if>
+        </trim>
+        where id = #{adminId}
+    </update>
+
+    <select id="findAdminById" resultType="com.whu.miniapp.entity.Administrator">
+        select * from administrator where id = #{adminId}
     </select>
 
-    <select id="findUserByUserPhone" resultType="com.whu.miniapp.entity.Administrator">
-        select * from administrator where admin_phone = #{admin_phone}
+    <select id="findUserById" resultType="com.whu.miniapp.entity.User">
+        select user_id,user_name,user_gender,user_age,user_career,user_phone,user_addr,wechat_pic,introduction,point from user where id = #{userId}
     </select>
 
+    <select id="findQuestionnaireByUserId" resultType="com.whu.miniapp.entity.Questionnaire">
+        select questionnaire_id,title,iss_status from questionnaire where user_id = #{userId}
+    </select>
+
+    <update id="updateUserBanInfo" parameterType="com.whu.miniapp.entity.User">
+        update user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="banTime!=null">ban_time = #{banTime},</if>
+            <if test="banUnit!=null">ban_unit = #{banUnit},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <select id="findAnswerByIdOrder" resultType="com.whu.miniapp.entity.Answer">
+        select answer.id,answer.user_id,questionnaire.title from answer inner join questionnaire on (answer.questionnaire_id = questionnaire.id) by id asc limit #{batchNum}, 10
+    </select>
+
+    <select id="findAnswerContentByAnswerSheetId" resultType="com.whu.miniapp.entity.AnswerContent">
+        select answerContent.id,answerContent.answer,question.quest_type,question.quest_content from answerContent inner join question on (answerContent.quest_id = question.id)
+        where answer_sheet_id = #{answerSheetId}
+    </select>
+
+    <select id="findAnswerByAnswerSheetId" resultType="com.whu.miniapp.entity.Answer">
+        select * from answer where id = #{answerSheetId}
+    </select>
+
+    <delete id="deleteAnswerByAnswerSheetId" parameterType="java.lang.Integer">
+        delete from answer where id = #{answerSheetId}
+    </delete>
+
+    <delete id="deleteAnswerContentByAnswerSheetId" parameterType="java.lang.Integer">
+        delete from answerContent where answer_sheet_id = #{answerSheetId}
+    </delete>
+
+    <select id="findComplaintByIdOrder" resultType="com.whu.miniapp.entity.Complaint">
+        select * from complaint by id desc limit #{batchNum}, 10
+    </select>
+
+    <select id="findSuggestByIdOrder" resultType="com.whu.miniapp.entity.Suggest">
+        select * from suggest by id desc limit #{batchNum}, 10
+    </select>
 </mapper>

@@ -1,75 +1,75 @@
 package com.whu.miniapp.controller;
 
+import com.auth0.jwt.JWT;
 import com.whu.miniapp.entity.User;
-import com.whu.miniapp.mapper.UserMapper;
 import com.whu.miniapp.service.UserService;
 
-import com.whu.miniapp.util.Response;
-import org.springframework.lang.Nullable;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+
 
 /**
  * Author: 胡龙晨
- * Date: 2021-01-04
+ * Date: 2021-03-01
  */
 
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/user",method = RequestMethod.GET)
 public class UserController {
-    @Autowired(required = false)
-    private UserMapper userMapper;
-
     @Autowired
     private UserService userService;
 
-    //用户注册
-    @PostMapping(value = "/userRegister")
-    public Response userRegister(String user_name,String user_passcode,String user_phone,@Nullable String user_gender,@Nullable Integer user_age,@Nullable String user_career,@Nullable String user_addr,@Nullable String introduction){
-        int ret = userService.userRegister(user_name,user_passcode,user_phone,user_gender,user_age,user_career,user_addr,introduction);
-        Response response;
-        switch (ret){
-            case 0:
-                response = new Response(0,"成功",null);
-                break;
-            case -1:
-                response = new Response(-1,"用户名已被使用",null);
-                break;
-            case -2:
-                response = new Response(-2,"手机号已被注册",null);
-                break;
-            default:
-                response = new Response(-3,"失败",null);
+    //获取用户信息
+    @PostMapping(value = "/getUserInfo")
+    public HashMap<String, Object> getUserInfo(HttpServletRequest httpServletRequest){
+        HashMap<String, Object> res = new HashMap<>();
+        String token = httpServletRequest.getHeader("Authorization");
+        System.out.println("获取用户信息请求头中的token:"+token);
+        String user_id = JWT.decode(token).getKeyId();
+        int userId = Integer.parseInt(user_id);
+        System.out.println("获取用户信息userId:"+userId);
+        User user = userService.getUserInfo(userId);
+        if(user != null){
+            res.put("code", 0);
+            res.put("message", "成功");
+            res.put("resData", user);
         }
-        return response;
+        else{
+            res.put("code", -1);
+            res.put("message", "没有用户信息");
+        }
+        return res;
     }
 
-    //用户登录
-    @PostMapping(value = "/userLogin")
-    public Response userLogin(String input,String user_passcode){
-        int ret = userService.userLogin(input,user_passcode);
-        Response response;
-        if(ret >= 0){
-            response = new Response(0,"成功",ret);
-            return response;
+    //修改个人信息
+    @PostMapping(value = "/modifyUserInfo")
+    public HashMap<String, Object> modifyUserInfo(@RequestBody JSONObject obj){
+        HashMap<String, Object> res = new HashMap<>();
+        Integer userId = obj.getInt("user_id");
+        String userName = obj.getString("user_name");
+        String userGender = obj.getString("user_gender");
+        Integer userAge = obj.getInt("user_age");
+        String userCareer = obj.getString("user_career");
+        String userAddr = obj.getString("user_addr");
+        String introduction = obj.getString("introduction");
+        int ret = userService.modifyUserInfo(userId,userName,userGender,userAge,userCareer,userAddr,introduction);
+        if(ret == 0){
+            res.put("code", 0);
+            res.put("message", "修改成功");
         }
-        else if(ret == -1){
-            response = new Response(-1,"用户不存在",null);
-            return response;
+        else{
+            res.put("code", -1);
+            res.put("message", "失败");
         }
-        else if(ret == -2){
-            response = new Response(-2,"用户名或密码错误",null);
-            return response;
-        }
-        else {
-            response = new Response(-3,"用户已被禁用",null);
-            return response;
-        }
+        return res;
     }
+
+
 }

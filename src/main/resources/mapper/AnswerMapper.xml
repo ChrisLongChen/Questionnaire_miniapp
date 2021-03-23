@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.whu.miniapp.mapper.AnswerMapper">
+    <resultMap type="com.whu.miniapp.entity.Answer" id="answerMap">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="questionnaire_id" property="questionnaireId"/>
+        <result column="answer_time" property="answerTime"/>
+        <result column="ans_status" property="ansStatus"/>
+    </resultMap>
+
+    <insert id="insertAnswer" useGeneratedKeys="true" keyProperty="id" parameterType="com.whu.miniapp.entity.Answer">
+        insert into answer (user_id, questionnaire_id, answer_time, ans_status)
+        values (#{userId}, #{questionnaireId}, #{answerTime}, #{ansStatus})
+    </insert>
+
+    <select id="findAnswerById" resultType="com.whu.miniapp.entity.Answer">
+        select * from answer where id = #{answerSheetId}
+    </select>
+
+    <update id="updateAnswerStatu" parameterType="com.whu.miniapp.entity.Answer">
+        update answer
+        <trim prefix="set" suffixOverrides=",">
+            <if test="ansStatus!=null">ans_status = #{ansStatus},</if>
+        </trim>
+        where id = #{answerSheetId}
+    </update>
+
+    <select id="findAnswerDraftByUserId" resultType="com.whu.miniapp.entity.Answer">
+        select * from answer where user_id = #{userId} and ans_status = 0
+    </select>
+
+    <select id="findAnswerByUserId" resultType="com.whu.miniapp.entity.Answer">
+        select * from answer where user_id = #{userId} and ans_status = 1
+    </select>
+
+</mapper>

@@ -1,47 +1,98 @@
 package com.whu.miniapp.entity;
 
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * Author: 胡龙晨
  * Date: 2021-01-02
  */
 
-@Entity
-@Table(name = "user")
-public class User {
-    @Id//主键注解
-    @GeneratedValue(strategy=GenerationType.IDENTITY)//主键自增
-    @Column(name = "id")//对应表中的列
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Accessors(chain = true)
+@TableName(value = "user")
+public class User implements Serializable {
+    /**
+     * 用户主键
+     */
     private Integer id;
-    @Column(name = "user_name")
-    private String user_name; //用户名
-    @Column(name = "user_passcode")
-    private String user_passcode;//密码
-    @Column(name = "user_gender")
-    private String user_gender;//性别
-    @Column(name = "user_age")
-    private Integer user_age;//年龄
-    @Column(name = "user_career")
-    private String user_career;//职业
-    @Column(name = "user_phone")
-    private String user_phone;//电话
-    @Column(name = "user_addr")
-    private String user_addr;//地址
-    @Column(name = "wechat_id")
-    private String wechat_id;//微信号
-    @Column(name = "wechat_pic")
-    private String wechat_pic;//微信头像
-    @Column(name = "user_status")
-    private Integer user_status;//用户状态
-    @Column(name = "ban_time")
-    private Integer ban_time;//禁用时长
-    @Column(name = "ban_unit")
-    private String ban_unit;//禁用单位
-    @Column(name = "introduction")
-    private String introduction;//个人简介
-    @Column(name = "point")
-    private Integer point ;//积分
+
+    /**
+     * 用户名
+     */
+    private String userName;
+
+    /**
+     * 密码
+     */
+    private String userPasscode;
+
+    /**
+     * 性别
+     */
+    private String userGender;
+
+    /**
+     * 年龄
+     */
+    private Integer userAge;
+
+    /**
+     * 职业
+     */
+    private String userCareer;
+
+    /**
+     * 电话
+     */
+    private String userPhone;
+
+    /**
+     * 地址
+     */
+    private String userAddr;
+
+    /**
+     * 微信号
+     */
+    private String wechatId;
+
+    /**
+     * 微信头像
+     */
+    private String wechatPic;
+
+    /**
+     * 用户状态
+     */
+    private Integer userStatus;
+
+    /**
+     * 禁用时长
+     */
+    private Integer banTime;
+
+    /**
+     * 禁用单位
+     */
+    private String banUnit;
+
+    /**
+     * 个人简介
+     */
+    private String introduction;
+
+    /**
+     * 积分
+     */
+    private Integer point ;
 
     public Integer getId(){
         return id;
@@ -51,100 +102,100 @@ public class User {
         this.id = id;
     }
 
-    public String getUser_name(){
-        return user_name;
+    public String getUserName(){
+        return userName;
     }
 
-    public void setUser_name(String user_name){
-        this.user_name = user_name;
+    public void setUserName(String userName){
+        this.userName = userName;
     }
 
-    public String getUser_passcode(){
-        return user_passcode;
+    public String getUserPasscode(){
+        return userPasscode;
     }
 
-    public void setUser_passcode(String user_passcode){
-        this.user_passcode = user_passcode;
+    public void setUserPasscode(String userPasscode){
+        this.userPasscode = userPasscode;
     }
 
-    public String getUser_gender(){
-        return user_gender;
+    public String getUserGender(){
+        return userGender;
     }
 
-    public void setUser_gender(String user_gender){
-        this.user_gender = user_gender;
+    public void setUserGender(String userGender){
+        this.userGender = userGender;
     }
 
-    public Integer getUser_age(){
-        return user_age;
+    public Integer getUserAge(){
+        return userAge;
     }
 
-    public void setUser_age(Integer user_age){
-        this.user_age = user_age;
+    public void setUserAge(Integer userAge){
+        this.userAge = userAge;
     }
 
-    public String getUser_career(){
-        return user_career;
+    public String getUserCareer(){
+        return userCareer;
     }
 
-    public void setUser_career(String user_career){
-        this.user_career = user_career;
+    public void setUserCareer(String userCareer){
+        this.userCareer = userCareer;
     }
 
-    public String getUser_phone(){
-        return user_phone;
+    public String getUserPhone(){
+        return userPhone;
     }
 
-    public void setUser_phone(String user_phone){
-        this.user_phone = user_phone;
+    public void setUserPhone(String userPhone){
+        this.userPhone = userPhone;
     }
 
-    public String getUser_addr(){
-        return user_addr;
+    public String getUserAddr(){
+        return userAddr;
     }
 
-    public void setUser_addr(String user_addr){
-        this.user_addr = user_addr;
+    public void setUserAddr(String userAddr){
+        this.userAddr = userAddr;
     }
 
-    public String getWechat_id(){
-        return wechat_id;
+    public String getWechatId(){
+        return wechatId;
     }
 
-    public void setWechat_id(String wechat_id){
-        this.wechat_id = wechat_id;
+    public void setWechatId(String wechatId){
+        this.wechatId = wechatId;
     }
 
-    public String getWechat_pic(){
-        return wechat_pic;
+    public String getWechatPic(){
+        return wechatPic;
     }
 
-    public void setWechat_pic(String wechat_pic){
-        this.wechat_pic = wechat_pic;
+    public void setWechatPic(String wechatPic){
+        this.wechatPic = wechatPic;
     }
 
-    public Integer getUser_status(){
-        return user_status;
+    public Integer getUserStatus(){
+        return userStatus;
     }
 
-    public void setUser_status(Integer user_status){
-        this.user_status = user_status;
+    public void setUserStatus(Integer userStatus){
+        this.userStatus = userStatus;
     }
 
-    public Integer getBan_time(){
-        return ban_time;
+    public Integer getBanTime(){
+        return banTime;
     }
 
-    public void setBan_time(Integer ban_time){
-        this.ban_time = ban_time;
+    public void setBanTime(Integer banTime){
+        this.banTime = banTime;
     }
 
-    public String getBan_unit(){
-        return ban_unit;
+    public String getBanUnit(){
+        return banUnit;
     }
 
-    public void setBan_unit(String ban_unit){
-        this.ban_unit = ban_unit;
+    public void setBanUnit(String banUnit){
+        this.banUnit = banUnit;
     }
 
     public String getIntroduction(){

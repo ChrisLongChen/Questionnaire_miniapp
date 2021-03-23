@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.whu.miniapp.mapper.SuggestMapper">
+
+    <resultMap type="com.whu.miniapp.entity.Suggest" id="suggestMap">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="content" property="content"/>
+        <result column="send_time" property="sendTime"/>
+    </resultMap>
+
+    <insert id="insertSuggest" useGeneratedKeys="true" keyProperty="id" parameterType="com.whu.miniapp.entity.Suggest">
+        insert into suggest (user_id, content, send_time)
+        values (#{userId}, #{content}, #{sendTime})
+    </insert>
+
+</mapper>

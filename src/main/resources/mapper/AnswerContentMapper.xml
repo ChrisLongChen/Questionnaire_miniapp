@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.whu.miniapp.mapper.AnswerContentMapper">
+    <resultMap type="com.whu.miniapp.entity.Answer" id="answerContentMap">
+        <result column="id" property="id"/>
+        <result column="answer_sheet_id" property="answerSheetId"/>
+        <result column="quest_id" property="questId"/>
+        <result column="questionnaire_id" property="questionnaireId"/>
+        <result column="answer" property="answer"/>
+    </resultMap>
+
+    <insert id="insertAnswerContent" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+        <selectKey resultType="java.lang.Integer" keyProperty="id"
+                   order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into answerContent (answer_sheet_id, quest_id, questionnaire_id, answer)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{answerContents.answer_sheet_id,jdbcType=INTEGER}, #{answerContents.quest_id,jdbcType=INTEGER}, #{answerContents.questionnaire_id,jdbcType=INTEGER},
+            #{answerContents.answer,jdbcType=String}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteAnswerContent" parameterType="java.lang.Integer">
+        delete from answerContent where answer_sheet_id = #{answerSheetId}
+    </delete>
+
+    <select id="findAnswerContentByAnswerSheetId" resultType="com.whu.miniapp.entity.AnswerContent">
+        select answerContent.*,question.quest_type,question.quest_content
+        from answerContent inner join question on (answerContent.quest_id = question.id) where answerContent.answer_sheet_id = #{answerSheetId}
+    </select>
+</mapper>
