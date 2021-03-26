@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -166,17 +168,11 @@ public class QuestionnaireController {
         String aimLocation = obj.getString("aim_location");
         String aim_time_begin = obj.getString("aim_time_begin");
         String aim_time_end = obj.getString("aim_time_end");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date1 = null; //初始化date
-        Date date2 = null;
-        try {
-            date1 = sdf.parse(aim_time_begin); //Mon Jan 14 00:00:00 CST 2013
-            date2 = sdf.parse(aim_time_end);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        DateTime aimTimeBegin = new DateTime(date1.getTime());
-        DateTime aimTimeEnd = new DateTime(date2.getTime());
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date1 = dateFormat.parse(aim_time_begin);
+        Date date2 = dateFormat.parse(aim_time_end);
+        Timestamp aimTimeBegin = new Timestamp(date1.getTime());
+        Timestamp aimTimeEnd = new Timestamp(date2.getTime());
         int cnt = questionnaireService.issueQuestionnaire(userId,title,quesIntroduction,aimStartAge,aimEndAge,aimGender,aimVocation,aimLocation,aimTimeBegin,aimTimeEnd);
         if(cnt == 0){
             res.put("code", 0);
@@ -202,17 +198,11 @@ public class QuestionnaireController {
         String aimLocation = obj.getString("aim_location");
         String aim_time_begin = obj.getString("aim_time_begin");
         String aim_time_end = obj.getString("aim_time_end");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date1 = null; //初始化date
-        Date date2 = null;
-        try {
-            date1 = sdf.parse(aim_time_begin); //Mon Jan 14 00:00:00 CST 2013
-            date2 = sdf.parse(aim_time_end);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        DateTime aimTimeBegin = new DateTime(date1.getTime());
-        DateTime aimTimeEnd = new DateTime(date2.getTime());
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date1 = dateFormat.parse(aim_time_begin);
+        Date date2 = dateFormat.parse(aim_time_end);
+        Timestamp aimTimeBegin = new Timestamp(date1.getTime());
+        Timestamp aimTimeEnd = new Timestamp(date2.getTime());
         int cnt = questionnaireService.updateQuestionnaire(questionnaireId,title,quesIntroduction,aimStartAge,aimEndAge,aimGender,aimVocation,aimLocation,aimTimeBegin,aimTimeEnd);
         if(cnt == 0){
             res.put("code", 0);

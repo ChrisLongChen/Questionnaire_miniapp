@@ -21,7 +21,7 @@ public class JwtUtil {
     private static long expire_time = 7200;
 
     public String getToken(User user) {
-        String userId = user.getId().toString();
+        String userId= user.getId().toString();
         String token="";
         token= JWT.create()
                 .withKeyId(userId)

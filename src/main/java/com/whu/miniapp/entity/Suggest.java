@@ -5,9 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.joda.time.DateTime;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * Author: 胡龙晨
@@ -38,7 +38,7 @@ public class Suggest implements Serializable{
     /**
      * 发送时间
      */
-    private DateTime sendTime;
+    private Timestamp sendTime;
 
     public Integer getId(){
         return id;
@@ -64,11 +64,11 @@ public class Suggest implements Serializable{
         this.content = content;
     }
 
-    public DateTime getSend_time(){
+    public Timestamp getSend_time(){
         return sendTime;
     }
 
-    public void setSend_time(DateTime send_time){
+    public void setSend_time(Timestamp send_time){
         this.sendTime = sendTime;
     }
 

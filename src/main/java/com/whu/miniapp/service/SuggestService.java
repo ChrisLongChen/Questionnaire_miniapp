@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -32,8 +33,8 @@ public class SuggestService {
         Suggest suggest = new Suggest();
         suggest.setUser_id(userId);
         suggest.setContent(content);
-        DateTime dateTime = new DateTime();
-        suggest.setSend_time(dateTime);
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        suggest.setSend_time(timestamp);
         int cnt = suggestMapper.insertSuggest(suggest);
         if(cnt >= 0){
             return 0;

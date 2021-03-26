@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 import org.joda.time.DateTime;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * Author: 胡龙晨
@@ -38,7 +39,7 @@ public class Answer implements Serializable{
     /**
      * 答题时间
      */
-    private DateTime answerTime;
+    private Timestamp answerTime;
 
     /**
      * 答题时间
@@ -69,11 +70,11 @@ public class Answer implements Serializable{
         this.questionnaireId = questionnaireId;
     }
 
-    public DateTime getAnswerTime(){
+    public Timestamp getAnswerTime(){
         return answerTime;
     }
 
-    public void setAnswerTime(DateTime answerTime){
+    public void setAnswerTime(Timestamp answerTime){
         this.answerTime = answerTime;
     }
 

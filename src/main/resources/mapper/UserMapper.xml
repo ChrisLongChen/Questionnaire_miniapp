@@ -45,6 +45,12 @@
         select * from user where wechat_id = #{openid}
     </select>
 
+    <update id="updateUserOpenid" parameterType="com.whu.miniapp.entity.User">
+        update user
+        set wechat_id = #{wechatId}
+        where id = #{id}
+    </update>
+
     <update id="updateUserInfo" parameterType="com.whu.miniapp.entity.User">
         update user
         <trim prefix="set" suffixOverrides=",">

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -88,10 +89,10 @@ public class QuestionniareService {
     @Transactional
     public int insertAnswer(Integer userId,Integer questionnaireId){
         Answer answer = new Answer();
-        DateTime dateTime = new DateTime();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         answer.setUserId(userId);
         answer.setQuestionnaireId(questionnaireId);
-        answer.setAnswerTime(dateTime);
+        answer.setAnswerTime(timestamp);
         answer.setAnsStatus(0);
         int ret = answerMapper.insertAnswer(answer);
         if(ret >= 0 ){
@@ -172,7 +173,7 @@ public class QuestionniareService {
      * @return Response
      */
     @Transactional
-    public int issueQuestionnaire(Integer userId,String title,String quesIntroduction,Integer aimStartAge,Integer aimEndAge,String aimGender,String aimVocation,String aimLocation,DateTime aimTimeBegin,DateTime aimTimeEnd){
+    public int issueQuestionnaire(Integer userId,String title,String quesIntroduction,Integer aimStartAge,Integer aimEndAge,String aimGender,String aimVocation,String aimLocation,Timestamp aimTimeBegin,Timestamp aimTimeEnd){
         Questionnaire questionnaire = new Questionnaire();
         questionnaire.setUserId(userId);
         questionnaire.setTitle(title);
@@ -185,8 +186,8 @@ public class QuestionniareService {
         questionnaire.setAimTimeBegin(aimTimeBegin);
         questionnaire.setAimTimeEnd(aimTimeEnd);
         questionnaire.setIssStatus(0);
-        DateTime issTime = new DateTime();
-        questionnaire.setIssTime(issTime);
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        questionnaire.setIssTime(timestamp);
         questionnaire.setQuestNumber(0);
         int cnt = questionnaireMapper.insertQuestionnaire(questionnaire);
         if(cnt >= 0){
@@ -213,7 +214,7 @@ public class QuestionniareService {
      * @return Response
      */
     @Transactional
-    public int updateQuestionnaire(Integer questionnaireId,String title,String quesIntroduction,Integer aimStartAge,Integer aimEndAge,String aimGender,String aimVocation,String aimLocation,DateTime aimTimeBegin,DateTime aimTimeEnd){
+    public int updateQuestionnaire(Integer questionnaireId,String title,String quesIntroduction,Integer aimStartAge,Integer aimEndAge,String aimGender,String aimVocation,String aimLocation,Timestamp aimTimeBegin,Timestamp aimTimeEnd){
         Questionnaire questionnaire = questionnaireMapper.findQuestionnaireByQuesId(questionnaireId);
         questionnaire.setTitle(title);
         questionnaire.setQuesIntroduction(quesIntroduction);

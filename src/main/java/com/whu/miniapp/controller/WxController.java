@@ -72,6 +72,7 @@ public class WxController {
         String openid = wxService.getOpenId(code);
         System.out.println("openid:"+openid);
         int ret = wxService.userLogin(openid,input,user_passcode);
+        System.out.println("mes:success");
         switch (ret){
             case 0:
                 User user1 = wxService.returnInfoFromWechatid(openid);

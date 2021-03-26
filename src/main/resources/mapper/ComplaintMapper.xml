@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.whu.miniapp.mapper.AnswerMapper">
-    <resultMap type="com.whu.miniapp.entity.Complaint" id="answerMap">
+    <resultMap type="com.whu.miniapp.entity.Complaint" id="complaintMap">
         <result column="id" property="id"/>
         <result column="user_id" property="userId"/>
         <result column="questionnaire_id" property="questionnaireId"/>

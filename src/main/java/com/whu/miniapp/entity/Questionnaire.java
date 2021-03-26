@@ -5,9 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.joda.time.DateTime;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * Author: 胡龙晨
@@ -68,12 +68,12 @@ public class Questionnaire implements Serializable{
     /**
      * 问卷开始时间
      */
-    private DateTime aimTimeBegin;
+    private Timestamp aimTimeBegin;
 
     /**
      * 问卷结束时间
      */
-    private DateTime aimTimeEnd;
+    private Timestamp aimTimeEnd;
 
     /**
      * 发布状态
@@ -83,7 +83,7 @@ public class Questionnaire implements Serializable{
     /**
      * 发布时间
      */
-    private DateTime issTime;
+    private Timestamp issTime;
 
     /**
      * 问题数目
@@ -167,19 +167,19 @@ public class Questionnaire implements Serializable{
         this.aimLocation = aimLocation;
     }
 
-    public DateTime getAimTimeBegin(){
+    public Timestamp getAimTimeBegin(){
         return aimTimeBegin;
     }
 
-    public void setAimTimeBegin(DateTime aimTimeBegin){
+    public void setAimTimeBegin(Timestamp aimTimeBegin){
         this.aimTimeBegin = aimTimeBegin;
     }
 
-    public DateTime getAimTimeEnd(){
+    public Timestamp getAimTimeEnd(){
         return aimTimeEnd;
     }
 
-    public void setAimTimeEnd(DateTime aimTimeEnd){
+    public void setAimTimeEnd(Timestamp aimTimeEnd){
         this.aimTimeEnd = aimTimeEnd;
     }
 
@@ -191,11 +191,11 @@ public class Questionnaire implements Serializable{
         this.issStatus = issStatus;
     }
 
-    public DateTime getIssTime(){
+    public Timestamp getIssTime(){
         return issTime;
     }
 
-    public void setIssTime(DateTime issTime){
+    public void setIssTime(Timestamp issTime){
         this.issTime = issTime;
     }
 
